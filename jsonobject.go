@@ -1,22 +1,41 @@
 package jgo
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+
+	"github.com/hbollon/jgo/internal/format"
+)
 
 type JSONObject struct {
-	Values map[string]any
+	Values map[string]JSONEntity
 }
 
-func (obj *JSONObject) Put(key string, value any) error {
+func (obj *JSONObject) Put(key string, value JSONEntity) error {
 	if key == "" {
-		errors.New("key cannot be empty")
+		return errors.New("key cannot be empty")
 	}
 	if value != nil {
-		errors.New("value cannot be nil")
+		return errors.New("value cannot be nil")
 	}
+
+	obj.Values[key] = value
+	return nil
 }
 
-func (obj *JSONObject) String() string {
-	return "JSONObject"
+func (obj *JSONObject) String(depth int) string {
+	var output string
+	output += "{\n"
+	depth++
+	for key, value := range obj.Values {
+		output += fmt.Sprintf("%s\"%s\": %s,\n", format.DepthAlign(depth), key, value.String(depth))
+	}
+
+	return output + format.DepthAlign(depth) + "}"
+}
+
+func (obj *JSONObject) Print() {
+	fmt.Println(obj.String(0))
 }
 
 // type GenericMap[KEY comparable, VALUE JSONTypeConstraint] map[KEY]VALUE

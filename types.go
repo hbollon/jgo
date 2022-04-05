@@ -2,45 +2,54 @@ package jgo
 
 import "fmt"
 
+type JSONEntity interface {
+	Print()
+	String(int) string
+}
+
+type JSONValueType interface {
+	toString() string
+}
+
 type stringType struct {
-	Value string
+	string
 }
 
 func (obj *stringType) toString() string {
-	return obj.Value
+	return obj.string
 }
 
 type floatType struct {
-	Value float64
+	float64
 }
 
 func (obj *floatType) toString() string {
-	return fmt.Sprintf("%f", obj.Value)
+	return fmt.Sprintf("%f", obj.float64)
 }
 
 type integerType struct {
-	Value int64
+	int64
 }
 
 func (obj *integerType) toString() string {
-	return fmt.Sprintf("%f", obj.Value)
+	return fmt.Sprintf("%d", obj.int64)
 }
 
 type boolType struct {
-	Value bool
+	bool
 }
 
 func (obj *boolType) toString() string {
-	return fmt.Sprintf("%f", obj.Value)
+	return fmt.Sprintf("%v", obj.bool)
 }
 
-type ValueTypeConstraint interface {
-	integerType | floatType | stringType | boolType
-}
+// type ValueTypeConstraint interface {
+// 	integerType | floatType | stringType | boolType
+// }
 
-type JSONTypeConstraint interface {
-	JSONObject | JSONArray | ValueTypeConstraint
-}
+// type JSONTypeConstraint interface {
+// 	JSONObject | JSONArray | ValueTypeConstraint
+// }
 
 // AssertValidJSONType asserts that the given type is a valid JSON type.
 // func AssertValidJSONType(v any) error {
