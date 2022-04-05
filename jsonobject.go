@@ -31,7 +31,7 @@ func (obj *JSONObject) String(depth int) string {
 		output += fmt.Sprintf("%s\"%s\": %s,\n", format.DepthAlign(depth), key, value.String(depth))
 	}
 
-	return output + format.DepthAlign(depth) + "}"
+	return output + format.DepthAlign(depth-1) + "}"
 }
 
 func (obj *JSONObject) Print() {

@@ -28,7 +28,7 @@ func (arr *JSONArray) String(depth int) string {
 		output += fmt.Sprintf("%s%s,\n", format.DepthAlign(depth), value.String(depth))
 	}
 
-	return output + format.DepthAlign(depth) + "]"
+	return output + format.DepthAlign(depth-1) + "]"
 }
 
 func (arr *JSONArray) Print() {
