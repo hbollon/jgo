@@ -1,4 +1,4 @@
-NAME          := <project_name> 
+NAME          := jgo
 FILES         := $(wildcard */*.go)
 VERSION       := $(shell git describe --always)
 BIN_DIR 	    := bin/
