@@ -28,11 +28,11 @@ func (obj *floatType) toString() string {
 }
 
 type integerType struct {
-	int64
+	int
 }
 
 func (obj *integerType) toString() string {
-	return fmt.Sprintf("%d", obj.int64)
+	return fmt.Sprintf("%d", obj.int)
 }
 
 type boolType struct {
@@ -42,19 +42,3 @@ type boolType struct {
 func (obj *boolType) toString() string {
 	return fmt.Sprintf("%v", obj.bool)
 }
-
-// type ValueTypeConstraint interface {
-// 	integerType | floatType | stringType | boolType
-// }
-
-// type JSONTypeConstraint interface {
-// 	JSONObject | JSONArray | ValueTypeConstraint
-// }
-
-// AssertValidJSONType asserts that the given type is a valid JSON type.
-// func AssertValidJSONType(v any) error {
-// 	switch v.(type) {
-// 	case constraints.Integer:
-// 		break
-// 	}
-// }
