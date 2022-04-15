@@ -12,10 +12,14 @@ type JSONObject struct {
 }
 
 func (obj *JSONObject) Put(key string, value JSONEntity) error {
+	if obj.Values == nil {
+		obj.Values = make(map[string]JSONEntity)
+	}
+
 	if key == "" {
 		return errors.New("key cannot be empty")
 	}
-	if value != nil {
+	if value == nil {
 		return errors.New("value cannot be nil")
 	}
 
@@ -32,6 +36,13 @@ func (obj *JSONObject) String(depth int) string {
 	}
 
 	return output + format.DepthAlign(depth-1) + "}"
+}
+
+func (obj *JSONObject) Get(key string) JSONEntity {
+	if val, ok := obj.Values[key]; ok {
+		return val
+	}
+	return nil
 }
 
 func (obj *JSONObject) Print() {
