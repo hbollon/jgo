@@ -12,7 +12,7 @@ type JSONArray struct {
 }
 
 func (arr *JSONArray) Put(value JSONEntity) error {
-	if value != nil {
+	if value == nil {
 		return errors.New("value cannot be nil")
 	}
 

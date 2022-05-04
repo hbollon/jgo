@@ -124,11 +124,15 @@ func (t *JSONTokenizer) NextValue() (JSONEntity, error) {
 			return nil, err
 		}
 
-		obj, err := UnmarshallFromTokenizer(t)
+		obj, err := UnmarshalFromTokenizer(t)
 		return &obj, err
-	// TODO: Add support for arrays
-	// case '[':
-	// 	return t.NextArray()
+	case '[':
+		if err = t.Back(); err != nil {
+			return nil, err
+		}
+
+		obj, err := UnmarshalJSONArrayFromTokenizer(t)
+		return &obj, err
 	default:
 		break
 	}
