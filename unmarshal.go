@@ -2,6 +2,7 @@ package jgo
 
 import (
 	"errors"
+	"fmt"
 )
 
 func Unmarshal(input any) (JSONObject, error) {
@@ -114,7 +115,7 @@ func UnmarshalFromTokenizer(t *JSONTokenizer) (JSONObject, error) {
 		case '}':
 			return obj, nil
 		default:
-			return JSONObject{}, errors.New("UnmarshalFromTokenizer: Unexpected character")
+			return JSONObject{}, errors.New(fmt.Sprintf("UnmarshalFromTokenizer: Unexpected character '%c' at line %d", c, t.Line))
 		}
 	}
 }
@@ -152,7 +153,9 @@ func UnmarshalJSONArrayFromTokenizer(t *JSONTokenizer) (JSONArray, error) {
 	if c == 0 {
 		return JSONArray{}, errors.New("UnmarshalJSONArrayFromTokenizer: Array is unclosed")
 	}
-
+	if c == ']' {
+		return JSONArray{}, nil
+	}
 	if c != ']' && t.Back() != nil {
 		return JSONArray{}, errors.New("UnmarshalJSONArrayFromTokenizer: Back failed l.147")
 	}
@@ -190,6 +193,7 @@ func UnmarshalJSONArrayFromTokenizer(t *JSONTokenizer) (JSONArray, error) {
 		case 0:
 			return JSONArray{}, errors.New("UnmarshalJSONArrayFromTokenizer: EOF")
 		case ']':
+
 			return arr, nil
 		case '{':
 			if prevCharacter == '{' {
@@ -214,7 +218,7 @@ func UnmarshalJSONArrayFromTokenizer(t *JSONTokenizer) (JSONArray, error) {
 				return JSONArray{}, errors.New("UnmarshalJSONArrayFromTokenizer: Back failed l.199")
 			}
 		default:
-			return JSONArray{}, errors.New("UnmarshalJSONArrayFromTokenizer: Unexpected character")
+			return JSONArray{}, errors.New(fmt.Sprintf("UnmarshalJSONArrayFromTokenizer: Unexpected character '%c' at line %d", c, t.Line))
 		}
 	}
 }
