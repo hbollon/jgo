@@ -19,7 +19,7 @@ func CreateJSONValue(value any) JSONValue {
 	switch value.(type) {
 	case string:
 		return JSONValue{&stringType{value.(string)}}
-	case float32:
+	case float64:
 		return JSONValue{&floatType{value.(float64)}}
 	case int:
 		return JSONValue{&integerType{value.(int)}}
@@ -41,13 +41,13 @@ func CreateJSONValueFromString(value string) JSONValue {
 	case "false":
 		return JSONValue{&boolType{false}}
 	case "null":
-		return JSONValue{}
+		return JSONValue{&nullType{}}
 	}
 
-	if val, err := strconv.ParseFloat(value, 32); err == nil {
-		return JSONValue{&floatType{val}}
-	} else if val, err := strconv.ParseInt(value, 10, 32); err == nil {
+	if val, err := strconv.ParseInt(value, 10, 32); err == nil {
 		return JSONValue{&integerType{int(val)}}
+	} else if val, err := strconv.ParseFloat(value, 32); err == nil {
+		return JSONValue{&floatType{val}}
 	} else {
 		return JSONValue{&stringType{value}}
 	}

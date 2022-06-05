@@ -42,3 +42,9 @@ type boolType struct {
 func (obj *boolType) toString() string {
 	return fmt.Sprintf("%v", obj.bool)
 }
+
+type nullType struct{}
+
+func (obj *nullType) toString() string {
+	return "null"
+}
